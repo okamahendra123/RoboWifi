@@ -25,6 +25,7 @@ GPIO4(D2) -> IN2
 GPIO5(D1) -> IN3   
 GPIO16(D0) -> IN4   
 GPIO01 -> Motor-right Enable
+
 GPIO03 -> Motor-left Enable 
 
 /* 2nd H-BRIGDE - HANDS */
