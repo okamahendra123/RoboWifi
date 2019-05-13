@@ -1,5 +1,6 @@
 # RoboWifi
-ESP8266 Robo Wifi source code
+ESP8266 Robo Wifi source code.
+Compiled and programmed to with Arduino IDE. 
 
 Build your own Wifi Robots:
 
