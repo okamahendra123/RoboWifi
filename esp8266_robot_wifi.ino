@@ -20,29 +20,30 @@ WiFiClient client;
 WiFiServer server(80);
 
 /* WIFI settings */
-const char* ssid = "YOUR_SSID";
-const char* password = "YOUR_PASSWORD";
+const char* ssid = "YOUR_SSID"; /* change with your ssid */
+const char* password = "YOUR_PASSWORD"; /* change with your password */
 
 /* data received from application */
 String  data =""; 
 
-/* define L298N or L293D motor control (H-BRIDGE) pins */
+/* define L298N or L293D motor control pins */
 
-/* 1st H-BRIGDE WHEEL*/
+/* 1st H-BRIGDE */
 int rightMotorForward = 0;   /* GPIO0(D3) -> IN1  */
 int rightMotorBackward = 4;  /* GPIO4(D2) -> IN2  */
 int leftMotorForward = 5;     /* GPIO5(D1) -> IN3   */
 int leftMotorBackward = 16;    /* GPIO16(D0) -> IN4   */
 
-/* 2nd H-BRIGDE HAND */
+/* 2nd H-BRIGDE */
 int rightMotorCW = 15;   /* GPIO15(D8) -> IN1  */
 int rightMotorCCW = 13;  /* GPIO13(D7) -> IN2  */
 int leftMotorCW = 12;     /* GPIO12(D6) -> IN3   */
 int leftMotorCCW = 14;    /* GPIO14(D5) -> IN4   */
 
+
 /* define L298N or L293D enable pins */
 int rightMotorENB = 1; /* GPIO01 -> Motor-right Enable */
-int leftMotorENB = 3;  /* GPIO03 -> Motor-left Enable */
+int leftMotorENB = 3;  /* GPIO03(S3) -> Motor-left Enable */
 
 
 void setup()
@@ -61,6 +62,12 @@ void setup()
   /* initialize motor enable pins as output */
   pinMode(leftMotorENB, OUTPUT); 
   pinMode(rightMotorENB, OUTPUT);
+
+  /* initilize serial communication */
+  Serial.begin(115200);
+
+  /* Connect to wifi*/
+  connectWiFi();
 
   /* start server communication */
   server.begin();
@@ -240,6 +247,20 @@ void MotorRightCCW(void)
   digitalWrite(rightMotorCCW,HIGH);
 }
 
+void connectWiFi()
+{
+  Serial.println("Connecting to WIFI");
+  WiFi.begin(ssid, password);
+  while ((!(WiFi.status() == WL_CONNECTED)))
+  {
+    delay(300);
+    Serial.print("..");
+  }
+  Serial.println("");
+  Serial.println("WiFi connected");
+  Serial.println("NodeMCU Local IP is : ");
+  Serial.print((WiFi.localIP()));
+}
 
 /********************************** RECEIVE DATA FROM the APP ******************************************/
 String checkClient (void)
